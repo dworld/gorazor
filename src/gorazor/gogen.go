@@ -322,7 +322,7 @@ func GenFolder(indir string, outdir string) (err error) {
 
 	//Make it
 	if !exists(outdir) {
-		os.MkdirAll(outdir, 0664)
+		os.MkdirAll(outdir, 0775)
 	}
 
 	options := Option{}
