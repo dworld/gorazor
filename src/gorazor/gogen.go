@@ -297,7 +297,7 @@ func GenFile(input string, output string, options Option) error {
 	if err != nil {
 		panic(err)
 	} else {
-		err := ioutil.WriteFile(output, []byte(res), 0777)
+		err := ioutil.WriteFile(output, []byte(res), 0664)
 		if err != nil {
 			panic(err)
 		}
@@ -322,7 +322,7 @@ func GenFolder(indir string, outdir string) (err error) {
 
 	//Make it
 	if !exists(outdir) {
-		os.MkdirAll(outdir, 0777)
+		os.MkdirAll(outdir, 0664)
 	}
 
 	options := Option{}
@@ -332,7 +332,7 @@ func GenFolder(indir string, outdir string) (err error) {
 	visit := func(path string, info os.FileInfo, err error) error {
 		if !info.IsDir() {
 			//Just do file with exstension .gohtml
-			if !bytes.HasSuffix([]byte(path), []byte(go_extension)) {
+			if !bytes.HasSuffix([]byte(path), []byte(gz_extension)) {
 				return nil
 			}
 			//adjust with the abs path, so that we keep the same directory hierarchy

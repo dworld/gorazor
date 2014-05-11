@@ -124,7 +124,7 @@ func regRemoveTail(text string, regs []string) string {
 		if err != nil {
 			panic(err)
 		}
-		found := regc.FindIndex([]byte(text))
+		found := regc.FindStringIndex(text)
 		if found != nil {
 			res = res[:found[0]] //BUG?
 		}
@@ -156,7 +156,7 @@ func (lexer *Lexer) Scan() ([]Token, error) {
 		match := false
 		length := 0
 		for _, m := range lexer.Matches {
-			found := m.Regex.FindIndex([]byte(left))
+			found := m.Regex.FindStringIndex(left)
 			if found != nil {
 				match = true
 				line, pos := lineAndPos(text, pos)

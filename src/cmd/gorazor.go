@@ -5,17 +5,15 @@ package main
 import (
 	"flag"
 	"fmt"
-	"gorazor"
 	"os"
+
+	"gorazor"
 )
 
 func Usage() {
 	fmt.Fprintf(os.Stderr, "Usage: Specify template file or directory\n")
-	fmt.Fprintf(os.Stderr, "      -f=\"\"      : Template file path\n")
-	fmt.Fprintf(os.Stderr, "      -o=\"\"      : Output file path\n")
-	fmt.Fprintf(os.Stderr, "      -indir=\"\"  : Template directory path\n")
-	fmt.Fprintf(os.Stderr, "      -outdir=\"\" : Output directory path\n")
-	os.Exit(0)
+	flag.PrintDefaults()
+	os.Exit(1)
 }
 
 func main() {
@@ -40,10 +38,15 @@ func main() {
 		err := gorazor.GenFolder(indir, outdir)
 		if err != nil {
 			fmt.Println(err)
+			os.Exit(2)
 		}
 	} else if infile != "" && outfile != "" {
 		fmt.Printf("processing: %s %s\n", infile, outfile)
-		gorazor.GenFile(infile, outfile, options)
+		err := gorazor.GenFile(infile, outfile, options)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(2)
+		}
 	} else {
 		flag.Usage()
 	}
